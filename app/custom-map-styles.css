@@ -1,0 +1,128 @@
+/* Fix sidebar width and full closing */
+.left-sidebar {
+    width: 300px !important;
+    min-width: 300px !important;
+}
+
+/* When sidebar is closed, ensure it's completely hidden */
+.left-sidebar[data-state="closed"] {
+    transform: translateX(-100%) !important;
+    display: none !important;
+}
+
+.right-sidebar[data-state="closed"] {
+    transform: translateX(100%) !important;
+    display: none !important;
+}
+
+/* Hide "No places found" when there are no places */
+.empty-places-message {
+    display: none !important;
+}
+
+/* Make the category icons clearer */
+.category-icon {
+    font-size: 1.25rem;
+    margin-right: 0.75rem;
+}
+
+/* Ensure places appear under their categories */
+.category-section {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(229, 231, 235, 0.2);
+}
+
+.category-header {
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+/* Make sure pins are correctly positioned and sized */
+.cesium-billboards {
+    z-index: 1000;
+}
+
+/* Add box shadow to popup for better visibility */
+.cesium-infoBox {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+}
+
+/* Fix animation issues */
+.cesium-animation-widget {
+    visibility: hidden !important;
+    display: none !important;
+}
+
+/* Prevent remnant UI elements from showing */
+.cesium-widget-credits {
+    display: none !important;
+}
+
+/* Ensure buttons are always on top */
+.toggle-sidebar-btn {
+    z-index: 2000 !important;
+}
+
+/* Fix search box styles */
+.search-box {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Custom CSS to ensure proper display in sidebar contexts */
+.h-full {
+    height: 100% !important;
+}
+
+.overflow-hidden {
+    overflow: hidden !important;
+}
+
+.overflow-y-auto {
+    overflow-y: auto !important;
+}
+
+/* Fix the markers */
+.cesium-viewer div[id^="place-"] .cesium-billboard {
+    position: absolute;
+    pointer-events: auto;
+}
+
+/* Make sidebar transition smoother */
+.left-sidebar, .right-sidebar {
+    transition: transform 0.3s ease !important;
+}
+
+/* Ensure toggles are correctly positioned */
+.left-toggle {
+    position: fixed !important;
+    left: 300px !important;
+    z-index: 1000 !important;
+}
+
+.left-toggle.closed {
+    left: 10px !important;
+}
+
+.right-toggle {
+    position: fixed !important;
+    right: 300px !important;
+    z-index: 1000 !important;
+}
+
+.right-toggle.closed {
+    right: 10px !important;
+}
+
+/* Make the place list more compact */
+.place-item {
+    padding: 0.75rem !important;
+}
+
+/* Remove empty state UI */
+.empty-state {
+    display: none !important;
+}
