@@ -14,13 +14,20 @@ def _get_origins() -> tuple[str, ...]:
     return tuple(origin.strip() for origin in value.split(",") if origin.strip())
 
 
+def _get_positive_int(name: str, default: int) -> int:
+    value = int(os.getenv(name, str(default)))
+    if value <= 0:
+        raise ValueError(f"{name} must be greater than zero")
+    return value
+
+
 @dataclass(frozen=True)
 class Settings:
     cors_origins: tuple[str, ...]
-    provider_user_agent: str
-    unsplash_api_key: str | None
-    cache_path: Path
-    http_timeout_seconds: float
+    database_url: str
+    session_cookie_name: str
+    session_days: int
+    cookie_secure: bool
 
 
 @lru_cache
@@ -28,8 +35,11 @@ def get_settings() -> Settings:
     load_dotenv(BACKEND_DIR / ".env")
     return Settings(
         cors_origins=_get_origins(),
-        provider_user_agent=os.getenv("PROVIDER_USER_AGENT", "aeroatlas/1.0"),
-        unsplash_api_key=os.getenv("UNSPLASH_API_KEY") or os.getenv("IMG_KEY"),
-        cache_path=Path(os.getenv("CACHE_PATH", BACKEND_DIR / "data_cache")),
-        http_timeout_seconds=float(os.getenv("HTTP_TIMEOUT_SECONDS", "10")),
+        database_url=os.getenv(
+            "DATABASE_URL",
+            f"sqlite:///{BACKEND_DIR / 'aeroatlas.db'}",
+        ),
+        session_cookie_name=os.getenv("SESSION_COOKIE_NAME", "aeroatlas_session"),
+        session_days=_get_positive_int("SESSION_DAYS", 30),
+        cookie_secure=os.getenv("COOKIE_SECURE", "false").lower() == "true",
     )

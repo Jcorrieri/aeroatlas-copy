@@ -1,35 +1,16 @@
 # AeroAtlas backend
 
-The backend is a small FastAPI application organized into routers, services, and shared core
-resources. Existing frontend-facing route paths are retained during the initial refactor.
+This is the FastAPI API for local accounts, trips, and itinerary items. See
+[`../BACKEND.md`](../BACKEND.md) for the architecture and API contract.
 
-## Setup
-
-The project requires Python 3.12 and [uv](https://docs.astral.sh/uv/).
+From this directory:
 
 ```bash
 uv sync --locked
-```
-
-API keys are not configured in the repository. Copy `.env.example` to `.env` only when real
-values are available. Without an Unsplash key, destination images use the existing fallback.
-
-## Run
-
-From `backend/`:
-
-```bash
+uv run alembic upgrade head
 uv run fastapi dev app/main.py
-```
-
-The root compatibility entrypoint also remains valid:
-
-```bash
-uv run fastapi dev main.py
-```
-
-## Test
-
-```bash
 uv run pytest
 ```
+
+SQLite is used by default. Copy `.env.example` to `.env` only when overriding local settings; no
+third-party API keys are required for this MVP.

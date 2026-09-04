@@ -13,13 +13,18 @@ to solve every edge case or design the final production architecture.
 ## Working principles
 
 - Keep one Next.js frontend and one FastAPI backend.
-- Preserve current behavior where reasonable during structural changes.
+- Prefer a clean MVP contract over compatibility with the old in-memory cache endpoints.
 - Prefer a few cohesive modules to many small abstractions.
 - Add only enough tests to protect the main user flows being changed.
-- Defer persistence redesign, exhaustive error handling, and production hardening until needed.
+- Defer exhaustive error handling and production hardening until needed.
 - Do not add new product features during the refactor.
 
 ## Phase 1 — Establish a clean backend foundation
+
+AA-001 through AA-004 are complete for the new account/trip MVP. The backend now uses uv,
+SQLAlchemy, Alembic, dependency-injected database sessions, resource routers and services, and
+focused tests. The previous destination and cache-based itinerary endpoints were intentionally
+removed; frontend adoption remains separate work.
 
 ### AA-001 — Introduce uv and a Python project
 
@@ -46,24 +51,24 @@ Done when:
 
 ### AA-003 — Use FastAPI dependency injection for shared resources
 
-Stop passing `Request` into services to access cache, configuration, and credentials. Provide
-settings, the HTTP client, cache, and services through small FastAPI dependencies.
+Provide settings, database sessions, the authenticated user, and services through small FastAPI
+dependencies.
 
 Done when:
 
 - Service functions do not depend on FastAPI `Request` objects.
-- A shared HTTP client and cache are created and closed through application lifespan.
+- Database sessions are scoped and closed through a dependency.
 - Tests can replace external services through dependency overrides.
 
 ### AA-004 — Add focused backend tests
 
-Cover the existing destination and itinerary happy paths while moving them. Include tests for
-the image response bug and basic provider failure, but do not attempt exhaustive edge coverage.
+Cover account sessions, owned trip and itinerary-item CRUD, validation, and migrations without
+attempting exhaustive edge coverage.
 
 Done when:
 
 - Tests run without real third-party requests.
-- The primary destination and itinerary routes have basic success and failure coverage.
+- Primary auth, trip, item, ownership, and migration paths have success and failure coverage.
 
 ## Phase 2 — Protect credentials and clarify the API boundary
 
@@ -72,9 +77,10 @@ Done when:
 Replace scattered environment reads and hard-coded backend URLs with one backend settings module
 and one frontend API configuration module. Add `.env.example` files containing placeholders.
 
-The current backend hardcodes the Nominatim, FlagCDN, Unsplash, and Google Flights URLs, an
+The removed legacy backend hardcoded the Nominatim, FlagCDN, Unsplash, and Google Flights URLs, an
 Unsplash fallback image URL, the local CORS origin, and a user agent containing a personal email.
-Classify these values instead of moving every string into environment variables:
+Use this classification when provider features return instead of moving every string into
+environment variables:
 
 - API keys, allowed origins, and deployment-specific identifiers belong in backend settings.
 - Stable provider base URLs belong as named constants in the service that uses that provider.
