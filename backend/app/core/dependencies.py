@@ -1,32 +1,49 @@
-from typing import Any
+from typing import Annotated
 
-import httpx
-from fastapi import Request
+from fastapi import Depends, HTTPException, Request, status
+from sqlalchemy.orm import Session
 
 from app.core.config import Settings, get_settings
-from app.services.destination_service import DestinationService
-from app.services.itinerary_service import ItineraryService
+from app.core.database import get_database_session
+from app.models import User
+from app.services.auth_service import AuthService
+from app.services.trip_service import TripService
 
 
-def get_cache(request: Request) -> Any:
-    return request.app.state.data_cache
+DatabaseDependency = Annotated[Session, Depends(get_database_session)]
+SettingsDependency = Annotated[Settings, Depends(get_settings)]
 
 
-def get_http_client(request: Request) -> httpx.AsyncClient:
-    return request.app.state.http_client
+def get_auth_service(
+    database: DatabaseDependency,
+    settings: SettingsDependency,
+) -> AuthService:
+    return AuthService(database, settings.session_days)
 
 
-async def get_itinerary_service(request: Request) -> ItineraryService:
-    return ItineraryService(
-        cache=get_cache(request),
-        trip_counters=request.app.state.trip_counters,
-    )
+AuthServiceDependency = Annotated[AuthService, Depends(get_auth_service)]
 
 
-async def get_destination_service(request: Request) -> DestinationService:
-    settings: Settings = get_settings()
-    return DestinationService(
-        cache=get_cache(request),
-        http_client=get_http_client(request),
-        settings=settings,
-    )
+def get_current_user(
+    request: Request,
+    service: AuthServiceDependency,
+    settings: SettingsDependency,
+) -> User:
+    token = request.cookies.get(settings.session_cookie_name)
+    user = service.get_user_for_token(token)
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Authentication required",
+        )
+    return user
+
+
+CurrentUserDependency = Annotated[User, Depends(get_current_user)]
+
+
+def get_trip_service(database: DatabaseDependency) -> TripService:
+    return TripService(database)
+
+
+TripServiceDependency = Annotated[TripService, Depends(get_trip_service)]

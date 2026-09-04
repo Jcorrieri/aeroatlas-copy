@@ -14,6 +14,9 @@ htmlcov/
 
 # Runtime data
 data_cache/
+*.db
+*.db-shm
+*.db-wal
 
 # Environment files
 .env*
