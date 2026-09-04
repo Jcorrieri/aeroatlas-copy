@@ -1,0 +1,62 @@
+{
+    "cityName": "Tokyo",
+    "country": "Japan",
+    "description": "Tokyo, Japan's dazzling capital, is a thrilling fusion of ultra-modern and traditional. Neon-lit skyscrapers tower over ancient temples, while bullet trains zoom past serene gardens. This metropolis never sleeps, offering world-class dining, shopping, and entertainment alongside rich cultural experiences. From the bustling Shibuya Crossing to the tranquil Meiji Shrine, Tokyo captivates with its endless contrasts and innovations. Whether you're savoring exquisite sushi, exploring cutting-edge technology, or immersing yourself in anime culture, Tokyo promises an unforgettable adventure that seamlessly blends the future with the past.",
+    "countryIcon": {
+      "imageUrl": "https://flagcdn.com/w80/jp.png",
+      "alt": "Japan Flag"
+    },
+    "attractions": [
+      {
+        "id": 1,
+        "imageUrl": "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1071&q=80",
+        "infoUrl": "https://en.wikipedia.org/wiki/Tokyo_Tower",
+        "name": "Tokyo Tower"
+      },
+      {
+        "id": 2,
+        "imageUrl": "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+        "infoUrl": "https://en.wikipedia.org/wiki/Shibuya_Crossing",
+        "name": "Shibuya Crossing"
+      },
+      {
+        "id": 3,
+        "imageUrl": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+        "infoUrl": "https://en.wikipedia.org/wiki/Sens%C5%8D-ji",
+        "name": "Senso-ji Temple"
+      }
+    ],
+    "weatherSummary": {
+      "averageTemperature": 28,
+      "condition": "Sunny",
+      "humidity": 65
+    },
+    "travelOptions": [
+      {
+        "type": "flight",
+        "departure": "New York",
+        "arrival": "Tokyo",
+        "price": 1200,
+        "departureDate": "2023-07-15",
+        "duration": "14h 30m"
+      },
+      {
+        "type": "flight",
+        "departure": "Los Angeles",
+        "arrival": "Tokyo",
+        "price": 1000,
+        "departureDate": "2023-07-16",
+        "duration": "11h 45m"
+      },
+      {
+        "type": "flight",
+        "departure": "London",
+        "arrival": "Tokyo",
+        "price": 1500,
+        "departureDate": "2023-07-15",
+        "duration": "12h 15m"
+      }
+    ],
+    "priceIndicator": 4,
+    "requiredItems": ["Passport", "Visa", "Travel Insurance", "Power Adapter"]
+}
